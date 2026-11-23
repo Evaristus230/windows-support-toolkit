@@ -1,6 +1,6 @@
 # Windows Endpoint Security, Monitoring & Incident Response Lab
 
-**Status:** Starter kit — documentation and safe read-only scripts prepared; hands-on evidence still needs to be collected.
+**Status:** Read-only baseline and bounded event review documented; fictional tabletop completed. Detailed context for selected events remains to be reviewed.
 
 ## Purpose
 
@@ -13,7 +13,7 @@ Build practical Windows endpoint support skills by learning to establish a basel
 - Do not disable Defender, tamper protection, firewall, logging, or other safeguards to create a scenario.
 - Do not run malware, exploit code, credential theft tools, or destructive tests. Use the written tabletop scenario in `scenarios/` instead.
 - Redact usernames, hostnames, addresses, tenant identifiers, and other personal or company data before sharing screenshots or logs.
-- This repository documents the lab. No actual machine has been inspected or changed by this starter kit.
+- The scripts were run read-only on the user's current Windows workstation. They did not change settings. This is a one-time local snapshot, not an isolated VM, continuous monitoring, or production incident response.
 
 ## Learning outcomes
 
@@ -37,6 +37,10 @@ Build practical Windows endpoint support skills by learning to establish a basel
 - `scripts/` — read-only PowerShell collection and verification scripts.
 - `evidence/README.md` — evidence checklist; add sanitized captures only after doing the steps yourself.
 - `evidence/tabletop-01-completed.md` — completed fictional case for interview practice.
+- `evidence/tabletop-01-evidence-log.md` — sources and limits for the fictional case.
+- `evidence/baseline-summary-2026-11-23.md` — sanitized read-only baseline from the user's Windows system.
+- `evidence/event-log-review-2026-11-23.md` — bounded event query with counts and interpretation limits.
+- `evidence/reflection-2026-11-23.md` — what was verified, simulated, and escalated.
 - `evidence/collection-attempt-2026-11-23.md` — sanitized record of the restricted-session collection attempt.
 
 ## Recommended order
@@ -57,6 +61,6 @@ Build practical Windows endpoint support skills by learning to establish a basel
 
 ## Current progress
 
-Starter documentation and scripts are prepared. A limited Windows System Information summary was reviewed locally and kept in private notes; it is not included in this public portfolio. PowerShell baseline and event-log collection were blocked by this session's access limits, so no script-collected endpoint findings are available. The fictional tabletop case is complete. Follow `docs/01-lab-guide.md` for the next practical steps in an authorized Windows test environment.
+The read-only baseline and 24-hour event review were run on the user's current Windows system in a non-elevated PowerShell session. Sanitized results, limits, tabletop evidence log, and reflection are included under `evidence/`; raw output remains private and is not committed. Six service-install records and 24 Defender configuration-change records were counted but are not classified without reviewing their detailed context. This is one workstation snapshot, not a dedicated VM, continuous monitoring, or a production incident investigation. The sign-in scenario remains fictional.
 
 For an interview presentation after completing the exercises, use `docs/05-interview-demo-walkthrough.md`.

@@ -104,6 +104,10 @@ The overall status is the worst finding. A machine with no findings reports
 - The Security log is deliberately excluded: reading it requires administrator
   rights, and this script is meant to run as a normal user.
 
+## Privacy and report handling
+
+The HTML and JSON reports can contain a computer name, hardware model and serial number, IP addresses, gateway/DNS details, installed software, running process names, service state, and recent event-log message text. Treat reports as internal diagnostic data: save them only in an approved private ticket or lab location, review and redact them before sending outside your organization, and never commit raw reports to a public repository. The generated `reports/` directory is ignored by Git by default.
+
 ## Limitations
 
 - Windows only.

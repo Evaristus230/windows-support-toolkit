@@ -1,4 +1,6 @@
-# Sanitized collection attempt record
+# Earlier restricted-session collection attempt
+
+> This records the first, restricted-session attempt. A later successful read-only collection on the current Windows workstation is documented in `baseline-summary-2026-11-23.md` and `event-log-review-2026-11-23.md`.
 
 **Date:** 2026-11-23 (Africa/Lagos)  
 **Context:** Restricted PowerShell session in the Codex workspace; not a dedicated Windows lab VM.  
@@ -24,6 +26,4 @@ A separate, limited System Information summary was reviewed through the local Wi
 - Security-event review from an authorized test Windows device: **not collected**.
 - Fictional sign-in tabletop: **completed** in `tabletop-01-completed.md`.
 
-## Next hands-on step
-
-Open a standard PowerShell session on an authorized Windows test VM, review each script, and run the commands in `docs/01-lab-guide.md`. If a query is denied there, record the limitation; do not change execution policy, enable auditing, or elevate privileges solely to force evidence collection. Redact identifiers before adding any result to the portfolio.
+This earlier failure was resolved by rerunning the scripts in a normal, non-elevated Windows session. The successful sanitized results are in the linked evidence reports. No settings, audit policies, or security controls were changed.
