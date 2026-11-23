@@ -57,6 +57,6 @@ Build practical Windows endpoint support skills by learning to establish a basel
 
 ## Current progress
 
-Starter documentation and scripts are prepared. A collection attempt in the restricted workspace was blocked from reading Windows system and event data; no live-system findings have been verified. The fictional tabletop case is complete. Follow `docs/01-lab-guide.md` for the next practical steps in an authorized Windows test environment.
+Starter documentation and scripts are prepared. A limited Windows System Information summary was reviewed locally and kept in private notes; it is not included in this public portfolio. PowerShell baseline and event-log collection were blocked by this session's access limits, so no script-collected endpoint findings are available. The fictional tabletop case is complete. Follow `docs/01-lab-guide.md` for the next practical steps in an authorized Windows test environment.
 
 For an interview presentation after completing the exercises, use `docs/05-interview-demo-walkthrough.md`.
