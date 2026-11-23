@@ -30,6 +30,7 @@ Build practical Windows endpoint support skills by learning to establish a basel
 - `docs/02-baseline-and-monitoring.md` — baseline worksheet and event review guidance.
 - `docs/03-incident-response-playbook.md` — safe triage, escalation, and recovery workflow.
 - `docs/04-interview-defence.md` — project explanation and interview prompts.
+- `docs/05-interview-demo-walkthrough.md` — five-minute portfolio walkthrough.
 - `scenarios/01-suspicious-sign-in-tabletop.md` — fictional, non-destructive practice incident.
 - `templates/incident-record.md` — reusable case record.
 - `templates/evidence-log.md` — evidence handling log.
@@ -55,3 +56,5 @@ Build practical Windows endpoint support skills by learning to establish a basel
 ## Current progress
 
 Starter documentation and scripts are prepared. No hands-on execution or live-system findings have been verified yet. Follow `docs/01-lab-guide.md` for the next practical steps.
+
+For an interview presentation after completing the exercises, use `docs/05-interview-demo-walkthrough.md`.
