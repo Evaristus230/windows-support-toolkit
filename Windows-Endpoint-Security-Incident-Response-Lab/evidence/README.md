@@ -9,4 +9,6 @@ Add evidence only after personally completing the step in an authorized test env
 - [ ] Evidence log showing source, collection time, handling notes, and redactions.
 - [ ] Short reflection: what was verified, what was inferred, and what remains unknown.
 
+The 2026-11-23 restricted-session attempt is documented in `collection-attempt-2026-11-23.md`; it is not Windows endpoint evidence. The fictional case practice is in `tabletop-01-completed.md` and must remain labeled as a simulation.
+
 No real endpoint evidence has been collected as part of creating this starter kit.

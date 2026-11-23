@@ -36,6 +36,8 @@ Build practical Windows endpoint support skills by learning to establish a basel
 - `templates/evidence-log.md` — evidence handling log.
 - `scripts/` — read-only PowerShell collection and verification scripts.
 - `evidence/README.md` — evidence checklist; add sanitized captures only after doing the steps yourself.
+- `evidence/tabletop-01-completed.md` — completed fictional case for interview practice.
+- `evidence/collection-attempt-2026-11-23.md` — sanitized record of the restricted-session collection attempt.
 
 ## Recommended order
 
@@ -55,6 +57,6 @@ Build practical Windows endpoint support skills by learning to establish a basel
 
 ## Current progress
 
-Starter documentation and scripts are prepared. No hands-on execution or live-system findings have been verified yet. Follow `docs/01-lab-guide.md` for the next practical steps.
+Starter documentation and scripts are prepared. A collection attempt in the restricted workspace was blocked from reading Windows system and event data; no live-system findings have been verified. The fictional tabletop case is complete. Follow `docs/01-lab-guide.md` for the next practical steps in an authorized Windows test environment.
 
 For an interview presentation after completing the exercises, use `docs/05-interview-demo-walkthrough.md`.
