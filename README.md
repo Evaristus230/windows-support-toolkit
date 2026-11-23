@@ -113,3 +113,9 @@ The overall status is the worst finding. A machine with no findings reports
 ## License
 
 MIT
+
+## Endpoint security and incident response lab
+
+This repository also includes a guided, read-only [Windows Endpoint Security, Monitoring & Incident Response Lab](Windows-Endpoint-Security-Incident-Response-Lab/README.md). It covers a limited Windows baseline, bounded event log review, a fictional suspicious sign-in tabletop, evidence handling, and interview preparation.
+
+The lab is clearly marked as training material: its tabletop is fictional, and its scripts do not change system settings. Do not treat a small local snapshot as a security certification or claim hands-on results until you have collected them on an authorized test device. Start with the [lab guide](Windows-Endpoint-Security-Incident-Response-Lab/docs/01-lab-guide.md) and use the [five-minute interview demo](Windows-Endpoint-Security-Incident-Response-Lab/docs/05-interview-demo-walkthrough.md) after completing the exercises.
