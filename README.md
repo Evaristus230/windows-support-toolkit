@@ -1,129 +1,101 @@
 # Windows Support Toolkit
 
-A PowerShell diagnostic that gathers the information a help-desk technician
-normally collects one command at a time, and turns it into a single HTML report
-you can attach to a ticket.
+A small portfolio repository for entry-level IT support practice. It contains one Windows diagnostic script and two separate guided labs. The repository distinguishes live, sanitized observations from fictional practice scenarios.
 
-Read-only. It inspects the machine; it never changes anything.
+## Start here
 
-![PowerShell](https://img.shields.io/badge/PowerShell-5.1%20%7C%207-5391FE)
-![Platform](https://img.shields.io/badge/platform-Windows-0078D4)
+1. [Run the Windows health report](#windows-health-report)
+2. [Browse the project map](PROJECT-MAP.md)
+3. [Open the cross-platform ticket lab](Cross-Platform-IT-Support-Lab/README.md)
+4. [Open the Windows security lab](Windows-Endpoint-Security-Incident-Response-Lab/README.md)
 
----
+## Windows health report
 
-## Why
+`Get-SystemHealthReport.ps1` collects a point-in-time set of Windows health details and writes HTML and JSON reports. It is designed to read system state and not change settings.
 
-When a user says *"my PC is slow"*, the useful questions are always the same:
-how much disk is left, what is failing to start, what is erroring in the event
-log, when was it last patched, what is eating the memory. Getting those answers
-means six different commands and a lot of scrolling.
+### Requirements
 
-This script runs all of them, judges the results, and writes a report with a
-clear overall status: `OK`, `Warning` or `Critical`.
+- Windows 10/11 or Windows Server
+- PowerShell 5.1 or 7+
+- No extra modules; standard-user permissions are sufficient for the documented checks
 
-## What it checks
-
-| Check | Source |
-|---|---|
-| OS, build, model, serial, RAM, uptime | `Win32_OperatingSystem`, `Win32_ComputerSystem`, `Win32_BIOS` |
-| Free space per volume, with 80% / 90% thresholds | `Win32_LogicalDisk` |
-| Services set to Automatic that are not running | `Get-Service` |
-| Errors and critical events from System + Application logs | `Get-WinEvent` |
-| Network configuration (IP, gateway, DNS) | `Get-NetIPConfiguration` |
-| Recently installed updates | `Get-HotFix` |
-| Top processes by memory | `Get-Process` |
-| Installed software | Uninstall registry keys |
-
-## Requirements
-
-- Windows 10 / 11 or Windows Server
-- PowerShell 5.1 (built in) or PowerShell 7+
-- No administrator rights needed, no modules to install
-
-## Usage
+### Run
 
 ```powershell
-# Default: 7 days of event history, writes to .\reports
+# Run from the repository root; default window is seven days
 .\Get-SystemHealthReport.ps1
 
-# Shorter window, custom output folder
-.\Get-SystemHealthReport.ps1 -OutputPath C:\Temp\reports -Days 3
+# Limit the event-log window and choose an output folder
+.\Get-SystemHealthReport.ps1 -Days 3 -OutputPath C:\Temp\reports
 
-# Skip the registry scan on slow machines
+# Omit software inventory
 .\Get-SystemHealthReport.ps1 -SkipSoftware
 ```
 
-Two files are written per run, timestamped so runs never overwrite each other:
+Reports are written to `reports/` by default and are excluded from Git. Review [privacy and handling](#privacy-and-safe-use) before sharing any output.
 
+### Collection scope
+
+| Area | Data collected |
+|---|---|
+| Device | Windows version/build, model, serial, memory and uptime |
+| Storage | Fixed-volume capacity and free space |
+| Services | Automatically configured services that are stopped |
+| Event logs | Recent Error/Critical events from System and Application channels |
+| Network | IP configuration, gateways and DNS servers |
+| Updates | Records returned by `Get-HotFix` |
+| Processes | Highest memory-use processes |
+| Software | Installed-software entries from uninstall registry keys |
+
+The script summarizes these checks with `OK`, `Warning`, or `Critical` labels using documented thresholds. These are triage hints, not diagnoses or compliance decisions. A stopped automatic service or event-log error can be expected; verify context before recommending action.
+
+## Guided labs
+
+### Cross-platform IT support
+
+A local dashboard and fictional practice tickets for Windows, Linux and AWS access troubleshooting. Follow the [lab guide](Cross-Platform-IT-Support-Lab/README.md); open its [dashboard](Cross-Platform-IT-Support-Lab/index.html) locally. It does not connect to AWS or represent real customer tickets.
+
+### Windows endpoint security
+
+A read-only baseline and bounded event-review exercise plus a fictional incident tabletop. Follow the [lab guide](Windows-Endpoint-Security-Incident-Response-Lab/README.md). The evidence folder separates local observations from simulated tabletop records.
+
+## Repository map
+
+```text
+.
+├── Get-SystemHealthReport.ps1
+├── README.md
+├── PROJECT-MAP.md
+├── Cross-Platform-IT-Support-Lab/
+│   ├── README.md
+│   ├── index.html
+│   ├── docs/          # Interview walkthrough
+│   ├── scenarios/     # Fictional tickets
+│   ├── scripts/       # Read-only evidence examples
+│   └── screenshots/   # Illustrative dashboard previews
+└── Windows-Endpoint-Security-Incident-Response-Lab/
+    ├── README.md
+    ├── docs/          # Runbook and interview notes
+    ├── scenarios/     # Fictional tabletop
+    ├── scripts/       # Read-only collectors
+    ├── evidence/      # Sanitized observations and tabletop records
+    └── templates/     # Reusable records
 ```
-reports/health-report-20261122-063721.html   <- open this in a browser
-reports/health-report-20261122-063721.json   <- same data, for parsing
-```
 
-## Sample output
+See [PROJECT-MAP.md](PROJECT-MAP.md) for the recommended reading sequence and evidence guide.
 
-Real output from a Windows 11 Pro machine:
+## Privacy and safe use
 
-```
-Collecting system information...
+The health report may include host identifiers, serial number, IP/network details, software inventory, process names, and event messages. Treat generated reports as sensitive operational data: inspect and redact them before sharing, store them only in an approved private location, and do not commit raw reports. The repository ignores the default `reports/` output folder.
 
-Overall status : Warning
-  [Warning] Automatic services not running - 6 service(s) set to start automatically are stopped
-  [Warning] High error volume - 68 error/critical events in the last 7 day(s)
+Review scripts before use and run them only on systems you own or are authorized to inspect. The collectors are intended to be read-only. The interactive scenarios and screenshots are fictional or illustrative; they are not evidence of production work. Do not infer a security incident from event counts alone.
 
-HTML : .\reports\health-report-20261122-063721.html
-JSON : .\reports\health-report-20261122-063721.json
-```
+## Evidence standard
 
-The HTML report contains a status banner, a findings table, and then the raw
-detail for each section - disk, services, event log, network, updates,
-processes and software.
-
-## How the scoring works
-
-Each check produces a finding with a status:
-
-- **Critical** - a disk is over 90% full, or critical-level events were logged
-- **Warning** - a disk is over 80% full, an automatic service is stopped,
-  uptime exceeds 30 days, or more than 20 errors were logged
-- **OK** - nothing found
-
-The overall status is the worst finding. A machine with no findings reports
-`No issues detected`.
-
-## Design notes
-
-- Every collector is wrapped in a `Get-Safe` helper, so one failing query (for
-  example a WMI class that does not exist on a given build) degrades to "no
-  data" instead of killing the whole report.
-- Software inventory reads the registry rather than calling `Win32_Product`.
-  `Win32_Product` triggers a consistency check on every installed MSI and is
-  well known for being slow and for writing to application logs.
-- The event log query uses `-FilterHashtable` with a server-side filter
-  (level and time), so only matching events are pulled back.
-- The Security log is deliberately excluded: reading it requires administrator
-  rights, and this script is meant to run as a normal user.
-
-## Privacy and report handling
-
-The HTML and JSON reports can contain a computer name, hardware model and serial number, IP addresses, gateway/DNS details, installed software, running process names, service state, and recent event-log message text. Treat reports as internal diagnostic data: save them only in an approved private ticket or lab location, review and redact them before sending outside your organization, and never commit raw reports to a public repository. The generated `reports/` directory is ignored by Git by default.
-
-## Limitations
-
-- Windows only.
-- The report reflects the moment it was taken; it is not a monitoring tool.
-- Event log messages are truncated to the first line for readability.
+- **Observed:** Sanitized, dated results collected from one workstation. These are point-in-time snapshots, with method and limitations documented in the security lab.
+- **Simulated:** Written scenarios and dashboard cases. They demonstrate reasoning practice, not investigations of real users or systems.
+- **Not established:** The project does not claim enterprise deployment, continuous monitoring, compliance certification, or production incident response.
 
 ## License
 
-MIT
-
-## Endpoint security and incident response lab
-
-This repository also includes a guided, read-only [Windows Endpoint Security, Monitoring & Incident Response Lab](Windows-Endpoint-Security-Incident-Response-Lab/README.md). It covers a limited Windows baseline, bounded event log review, a fictional suspicious sign-in tabletop, evidence handling, and interview preparation.
-
-The lab is clearly marked as training material: its tabletop is fictional, and its scripts do not change system settings. Do not treat a small local snapshot as a security certification or claim hands-on results until you have collected them on an authorized test device. Start with the [lab guide](Windows-Endpoint-Security-Incident-Response-Lab/docs/01-lab-guide.md) and use the [five-minute interview demo](Windows-Endpoint-Security-Incident-Response-Lab/docs/05-interview-demo-walkthrough.md) after completing the exercises.
-
-## Cross-platform IT support lab
-
-A local-only practice dashboard for Windows, Ubuntu Linux, and AWS access troubleshooting. Its fictional case studies use read-only evidence examples, explicit escalation decisions, interview notes, and illustrative dashboard previews. No live incidents or AWS account are represented. Start at [the lab guide](Cross-Platform-IT-Support-Lab/README.md) or open the [interactive demo](Cross-Platform-IT-Support-Lab/index.html).
+MIT. See [LICENSE](LICENSE).

@@ -218,14 +218,21 @@ function Get-StatusClass {
     }
 }
 
-$computerName = if ($env:COMPUTERNAME) { $env:COMPUTERNAME } else { 'unknown' }
-$generated = Get-Date -Format 'yyyy-MM-dd HH:mm:ss'
-$osCaption = if ($os) { $os.Caption } else { 'Unknown OS' }
-$osVersion = if ($os) { "$($os.Version) (build $($os.BuildNumber))" } else { '' }
-$uptimeText = if ($uptime) { '{0} days {1} hours' -f [math]::Floor($uptime.TotalDays), $uptime.Hours } else { 'Unknown' }
-$model = if ($cs) { "$($cs.Manufacturer) $($cs.Model)" } else { 'Unknown' }
-$serial = if ($bios) { $bios.SerialNumber } else { '' }
-$totalRam = if ($cs) { '{0:N1} GB' -f ($cs.TotalPhysicalMemory / 1GB) } else { 'Unknown' }
+function ConvertTo-HtmlText {
+    param([AllowNull()][object]$Value)
+    if ($null -eq $Value) { return '' }
+    [System.Net.WebUtility]::HtmlEncode([string]$Value)
+}
+
+# Encode every machine-derived value before inserting it into the HTML document.
+$computerName = ConvertTo-HtmlText $(if ($env:COMPUTERNAME) { $env:COMPUTERNAME } else { 'unknown' })
+$generated = ConvertTo-HtmlText (Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
+$osCaption = ConvertTo-HtmlText $(if ($os) { $os.Caption } else { 'Unknown OS' })
+$osVersion = ConvertTo-HtmlText $(if ($os) { "$($os.Version) (build $($os.BuildNumber))" } else { '' })
+$uptimeText = ConvertTo-HtmlText $(if ($uptime) { '{0} days {1} hours' -f [math]::Floor($uptime.TotalDays), $uptime.Hours } else { 'Unknown' })
+$model = ConvertTo-HtmlText $(if ($cs) { "$($cs.Manufacturer) $($cs.Model)" } else { 'Unknown' })
+$serial = ConvertTo-HtmlText $(if ($bios) { $bios.SerialNumber } else { '' })
+$totalRam = ConvertTo-HtmlText $(if ($cs) { '{0:N1} GB' -f ($cs.TotalPhysicalMemory / 1GB) } else { 'Unknown' })
 
 $findingRows = ($findings | ForEach-Object {
     "<tr class='$(Get-StatusClass $_.Status)'><td>$($_.Status)</td><td>$([System.Net.WebUtility]::HtmlEncode($_.Name))</td><td>$([System.Net.WebUtility]::HtmlEncode($_.Note))</td></tr>"
@@ -366,3 +373,4 @@ foreach ($f in $findings) {
 Write-Host ''
 Write-Host ("HTML : {0}" -f $htmlPath) -ForegroundColor Cyan
 Write-Host ("JSON : {0}" -f $jsonPath) -ForegroundColor Cyan
+
