@@ -45,14 +45,18 @@ function New-Section {
     [pscustomobject]@{ Name = $Name; Status = $Status; Note = $Note }
 }
 
+$collectorFailures = [System.Collections.Generic.List[string]]::new()
+
 function Get-Safe {
     <#
         Runs a script block and returns its output, or $null if it throws.
         Every collector is wrapped so one failing query cannot kill the report.
     #>
     param([scriptblock]$Block)
-    try { & $Block }
+    try { $ErrorActionPreference = 'Stop'; & $Block }
     catch {
+        if ($_.FullyQualifiedErrorId -like 'NoMatchingEventsFound,*') { return }
+        $collectorFailures.Add([string]$_.CategoryInfo.Activity)
         Write-Verbose ("Collector failed: {0}" -f $_.Exception.Message)
         $null
     }
@@ -104,7 +108,7 @@ $recentErrors = Get-Safe {
         LogName   = 'System', 'Application'
         Level     = 1, 2
         StartTime = $since
-    } -MaxEvents 100 -ErrorAction SilentlyContinue |
+    } -MaxEvents 100 -ErrorAction Stop |
         Select-Object TimeCreated, LogName, ProviderName, Id, LevelDisplayName, Message
 }
 
@@ -178,8 +182,12 @@ if ($criticalCount -gt 0) {
     $findings.Add((New-Section 'Critical events logged' 'Critical' "$criticalCount critical event(s) in the last $Days day(s)"))
 }
 
+if ($collectorFailures.Count -gt 0 -or -not $os -or -not $disks -or -not $network) {
+    $findings.Add((New-Section 'Incomplete collection' 'Warning' 'One or more queries failed or expected baseline data was missing. Review available results before drawing conclusions.'))
+}
+
 if ($findings.Count -eq 0) {
-    $findings.Add((New-Section 'No issues detected' 'OK' 'All checks passed'))
+    $findings.Add((New-Section 'No issues detected' 'OK' 'No warning or critical findings in the collected data'))
 }
 
 $overall = if ($findings.Status -contains 'Critical') { 'Critical' }
@@ -373,4 +381,5 @@ foreach ($f in $findings) {
 Write-Host ''
 Write-Host ("HTML : {0}" -f $htmlPath) -ForegroundColor Cyan
 Write-Host ("JSON : {0}" -f $jsonPath) -ForegroundColor Cyan
+
 

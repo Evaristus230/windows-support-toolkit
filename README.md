@@ -99,3 +99,5 @@ Review scripts before use and run them only on systems you own or are authorized
 ## License
 
 MIT. See [LICENSE](LICENSE).
+
+See [validation notes](VALIDATION.md) for the restricted Windows smoke check.
