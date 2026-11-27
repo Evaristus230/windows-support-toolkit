@@ -1,13 +1,13 @@
 # Windows Support Toolkit
 
-A small portfolio repository for entry-level IT support practice. It contains one Windows diagnostic script and two separate guided labs. The repository distinguishes live, sanitized observations from fictional practice scenarios.
+A small portfolio repository for entry-level IT support practice. It contains a Windows diagnostic script that produces HTML and JSON reports.
 
 ## Start here
 
 1. [Run the Windows health report](#windows-health-report)
 2. [Browse the project map](PROJECT-MAP.md)
-3. [Open the cross-platform ticket lab](Cross-Platform-IT-Support-Lab/README.md)
-4. [Open the Windows security lab](Windows-Endpoint-Security-Incident-Response-Lab/README.md)
+3. [Open the cross-platform ticket lab](https://github.com/Evaristus230/it-support-troubleshooting-lab)
+4. [Open the Windows security lab](https://github.com/Evaristus230/windows-endpoint-security-lab)
 
 ## Windows health report
 
@@ -53,36 +53,15 @@ The script summarizes these checks with `OK`, `Warning`, or `Critical` labels us
 
 ### Cross-platform IT support
 
-A local dashboard and fictional practice tickets for Windows, Linux and AWS access troubleshooting. Follow the [lab guide](Cross-Platform-IT-Support-Lab/README.md); open its [dashboard](Cross-Platform-IT-Support-Lab/index.html) locally. It does not connect to AWS or represent real customer tickets.
+A local dashboard and fictional practice tickets for Windows, Linux and AWS access troubleshooting. Follow the [lab guide](https://github.com/Evaristus230/it-support-troubleshooting-lab); open its [dashboard](https://github.com/Evaristus230/it-support-troubleshooting-lab/blob/main/index.html) locally. It does not connect to AWS or represent real customer tickets.
 
 ### Windows endpoint security
 
-A read-only baseline and bounded event-review exercise plus a fictional incident tabletop. Follow the [lab guide](Windows-Endpoint-Security-Incident-Response-Lab/README.md). The evidence folder separates local observations from simulated tabletop records.
+A read-only baseline and bounded event-review exercise plus a fictional incident tabletop. Follow the [lab guide](https://github.com/Evaristus230/windows-endpoint-security-lab). The evidence folder separates local observations from simulated tabletop records.
 
 ## Repository map
 
-```text
-.
-├── Get-SystemHealthReport.ps1
-├── README.md
-├── PROJECT-MAP.md
-├── Cross-Platform-IT-Support-Lab/
-│   ├── README.md
-│   ├── index.html
-│   ├── docs/          # Interview walkthrough
-│   ├── scenarios/     # Fictional tickets
-│   ├── scripts/       # Read-only evidence examples
-│   └── screenshots/   # Illustrative dashboard previews
-└── Windows-Endpoint-Security-Incident-Response-Lab/
-    ├── README.md
-    ├── docs/          # Runbook and interview notes
-    ├── scenarios/     # Fictional tabletop
-    ├── scripts/       # Read-only collectors
-    ├── evidence/      # Sanitized observations and tabletop records
-    └── templates/     # Reusable records
-```
-
-See [PROJECT-MAP.md](PROJECT-MAP.md) for the recommended reading sequence and evidence guide.
+See [PROJECT-MAP.md](PROJECT-MAP.md) for the toolkit and standalone lab links.
 
 ## Privacy and safe use
 
@@ -101,3 +80,4 @@ Review scripts before use and run them only on systems you own or are authorized
 MIT. See [LICENSE](LICENSE).
 
 See [validation notes](VALIDATION.md) for the restricted Windows smoke check.
+
